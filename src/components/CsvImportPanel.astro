@@ -84,7 +84,6 @@ const { panelId = "track-import" } = Astro.props;
       <button
         class="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
         type="submit"
-        data-import-submit
       >
         Import CSV
       </button>
@@ -101,18 +100,6 @@ const { panelId = "track-import" } = Astro.props;
   <div class="mt-4 space-y-2 text-sm">
     <p class="text-slate-600" data-import-status>Waiting for a CSV file.</p>
     <p class="text-slate-600" data-import-summary>No imports yet.</p>
-    <div class="hidden space-y-1" data-import-progress>
-      <div class="flex items-center justify-between text-xs text-slate-500">
-        <span>Uploading CSV…</span>
-        <span data-import-percent>0%</span>
-      </div>
-      <div class="h-2 w-full overflow-hidden rounded-full bg-slate-200">
-        <div
-          class="h-full w-0 rounded-full bg-blue-600 transition-[width] duration-150"
-          data-import-bar
-        ></div>
-      </div>
-    </div>
     <ul class="list-disc space-y-1 pl-5 text-slate-500" data-import-warnings></ul>
   </div>
 </aside>
