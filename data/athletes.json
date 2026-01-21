@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": "olivia-hart",
+    "first": "Olivia",
+    "last": "Hart",
+    "gender": "F",
+    "grade": 11
+  },
+  {
+    "id": "maya-lopez",
+    "first": "Maya",
+    "last": "Lopez",
+    "gender": "F",
+    "grade": 10
+  },
+  {
+    "id": "ethan-kim",
+    "first": "Ethan",
+    "last": "Kim",
+    "gender": "M",
+    "grade": 12
+  },
+  {
+    "id": "jackson-reed",
+    "first": "Jackson",
+    "last": "Reed",
+    "gender": "M",
+    "grade": 9
+  }
+]

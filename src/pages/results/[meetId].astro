@@ -1,0 +1,110 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import meets from "../../../data/meets.json";
+import athletes from "../../../data/athletes.json";
+import performances from "../../../data/performances.json";
+import eventMeta from "../../../data/event_meta.json";
+
+export function getStaticPaths() {
+  return meets.map((meet) => ({
+    params: { meetId: meet.id }
+  }));
+}
+
+const { meetId } = Astro.params;
+const meet = meets.find((entry) => entry.id === meetId);
+
+const athleteLookup = new Map(
+  athletes.map((athlete) => [athlete.id, athlete])
+);
+const eventLookup = new Map(eventMeta.map((event) => [event.key, event]));
+const eventOrder = new Map(eventMeta.map((event, index) => [event.key, index]));
+
+const formatDate = (value) =>
+  new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(new Date(value));
+
+const formatTime = (totalSeconds) => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds - minutes * 60;
+  if (minutes > 0) {
+    return `${minutes}:${seconds.toFixed(2).padStart(5, "0")}`;
+  }
+  return seconds.toFixed(2);
+};
+
+const formatMark = (mark, type) => {
+  if (type === "time") {
+    return formatTime(mark);
+  }
+  return `${mark.toFixed(2)} m`;
+};
+
+const meetPerformances = performances
+  .filter((performance) => performance.meetId === meetId)
+  .map((performance) => {
+    const athlete = athleteLookup.get(performance.athleteId);
+    const event = eventLookup.get(performance.event);
+    return {
+      ...performance,
+      athlete,
+      event
+    };
+  })
+  .filter((performance) => performance.athlete && performance.event)
+  .sort((a, b) => {
+    const orderDiff =
+      (eventOrder.get(a.event.key) ?? 0) - (eventOrder.get(b.event.key) ?? 0);
+    if (orderDiff !== 0) return orderDiff;
+    return a.athlete.last.localeCompare(b.athlete.last);
+  });
+---
+
+<BaseLayout title={`Farmington Track | ${meet?.name ?? "Meet"}`}>
+  <section class="space-y-6">
+    {meet ? (
+      <header class="space-y-1">
+        <p class="text-sm text-slate-500">Results</p>
+        <h1 class="text-2xl font-semibold text-slate-900">{meet.name}</h1>
+        <p class="text-sm text-slate-600">
+          {formatDate(meet.date)} · {meet.season}
+        </p>
+        {meet.location ? <p class="text-sm text-slate-600">{meet.location}</p> : null}
+      </header>
+    ) : (
+      <div class="rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-600">
+        Meet not found.
+      </div>
+    )}
+
+    {meet ? (
+      <div class="overflow-hidden rounded-lg border border-slate-200">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-50 text-slate-600">
+            <tr>
+              <th class="px-4 py-3 font-medium">Athlete</th>
+              <th class="px-4 py-3 font-medium">Event</th>
+              <th class="px-4 py-3 font-medium">Mark</th>
+            </tr>
+          </thead>
+          <tbody>
+            {meetPerformances.map((performance) => (
+              <tr class="border-t border-slate-200">
+                <td class="px-4 py-3">
+                  {performance.athlete.first} {performance.athlete.last}
+                </td>
+                <td class="px-4 py-3">{performance.event.name}</td>
+                <td class="px-4 py-3">
+                  {formatMark(performance.mark, performance.event.type)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : null}
+  </section>
+</BaseLayout>
