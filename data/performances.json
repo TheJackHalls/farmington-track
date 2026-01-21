@@ -1,1 +1,170 @@
-[]
+[
+  {
+    "id": "spring-invite-2024-olivia-100",
+    "athleteId": "olivia-hart",
+    "meetId": "spring-invite-2024",
+    "event": "100",
+    "mark": 13.12
+  },
+  {
+    "id": "spring-invite-2024-olivia-400",
+    "athleteId": "olivia-hart",
+    "meetId": "spring-invite-2024",
+    "event": "400",
+    "mark": 61.4
+  },
+  {
+    "id": "spring-invite-2024-olivia-lj",
+    "athleteId": "olivia-hart",
+    "meetId": "spring-invite-2024",
+    "event": "LJ",
+    "mark": 4.85
+  },
+  {
+    "id": "spring-invite-2024-maya-100",
+    "athleteId": "maya-lopez",
+    "meetId": "spring-invite-2024",
+    "event": "100",
+    "mark": 13.85
+  },
+  {
+    "id": "spring-invite-2024-maya-1600",
+    "athleteId": "maya-lopez",
+    "meetId": "spring-invite-2024",
+    "event": "1600",
+    "mark": 332.4
+  },
+  {
+    "id": "spring-invite-2024-maya-pv",
+    "athleteId": "maya-lopez",
+    "meetId": "spring-invite-2024",
+    "event": "PV",
+    "mark": 2.55
+  },
+  {
+    "id": "spring-invite-2024-ethan-100",
+    "athleteId": "ethan-kim",
+    "meetId": "spring-invite-2024",
+    "event": "100",
+    "mark": 11.45
+  },
+  {
+    "id": "spring-invite-2024-ethan-400",
+    "athleteId": "ethan-kim",
+    "meetId": "spring-invite-2024",
+    "event": "400",
+    "mark": 52.3
+  },
+  {
+    "id": "spring-invite-2024-ethan-1600",
+    "athleteId": "ethan-kim",
+    "meetId": "spring-invite-2024",
+    "event": "1600",
+    "mark": 288.2
+  },
+  {
+    "id": "spring-invite-2024-ethan-pv",
+    "athleteId": "ethan-kim",
+    "meetId": "spring-invite-2024",
+    "event": "PV",
+    "mark": 3.65
+  },
+  {
+    "id": "spring-invite-2024-jackson-100",
+    "athleteId": "jackson-reed",
+    "meetId": "spring-invite-2024",
+    "event": "100",
+    "mark": 12.2
+  },
+  {
+    "id": "spring-invite-2024-jackson-lj",
+    "athleteId": "jackson-reed",
+    "meetId": "spring-invite-2024",
+    "event": "LJ",
+    "mark": 5.45
+  },
+  {
+    "id": "north-suburban-2024-olivia-100",
+    "athleteId": "olivia-hart",
+    "meetId": "north-suburban-2024",
+    "event": "100",
+    "mark": 12.95
+  },
+  {
+    "id": "north-suburban-2024-olivia-400",
+    "athleteId": "olivia-hart",
+    "meetId": "north-suburban-2024",
+    "event": "400",
+    "mark": 60.8
+  },
+  {
+    "id": "north-suburban-2024-olivia-lj",
+    "athleteId": "olivia-hart",
+    "meetId": "north-suburban-2024",
+    "event": "LJ",
+    "mark": 5.02
+  },
+  {
+    "id": "north-suburban-2024-maya-100",
+    "athleteId": "maya-lopez",
+    "meetId": "north-suburban-2024",
+    "event": "100",
+    "mark": 13.62
+  },
+  {
+    "id": "north-suburban-2024-maya-1600",
+    "athleteId": "maya-lopez",
+    "meetId": "north-suburban-2024",
+    "event": "1600",
+    "mark": 331.1
+  },
+  {
+    "id": "north-suburban-2024-maya-pv",
+    "athleteId": "maya-lopez",
+    "meetId": "north-suburban-2024",
+    "event": "PV",
+    "mark": 2.7
+  },
+  {
+    "id": "north-suburban-2024-ethan-100",
+    "athleteId": "ethan-kim",
+    "meetId": "north-suburban-2024",
+    "event": "100",
+    "mark": 11.22
+  },
+  {
+    "id": "north-suburban-2024-ethan-400",
+    "athleteId": "ethan-kim",
+    "meetId": "north-suburban-2024",
+    "event": "400",
+    "mark": 51.6
+  },
+  {
+    "id": "north-suburban-2024-ethan-1600",
+    "athleteId": "ethan-kim",
+    "meetId": "north-suburban-2024",
+    "event": "1600",
+    "mark": 286.9
+  },
+  {
+    "id": "north-suburban-2024-ethan-pv",
+    "athleteId": "ethan-kim",
+    "meetId": "north-suburban-2024",
+    "event": "PV",
+    "mark": 3.8
+  },
+  {
+    "id": "north-suburban-2024-jackson-100",
+    "athleteId": "jackson-reed",
+    "meetId": "north-suburban-2024",
+    "event": "100",
+    "mark": 12.05
+  },
+  {
+    "id": "north-suburban-2024-jackson-lj",
+    "athleteId": "jackson-reed",
+    "meetId": "north-suburban-2024",
+    "event": "LJ",
+    "mark": 5.6
+  }
+]

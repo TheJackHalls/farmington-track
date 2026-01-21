@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "key": "100",
+    "name": "100m",
+    "type": "time",
+    "unit": "s"
+  },
+  {
+    "key": "400",
+    "name": "400m",
+    "type": "time",
+    "unit": "s"
+  },
+  {
+    "key": "1600",
+    "name": "1600m",
+    "type": "time",
+    "unit": "s"
+  },
+  {
+    "key": "LJ",
+    "name": "Long Jump",
+    "type": "distance",
+    "unit": "m"
+  },
+  {
+    "key": "PV",
+    "name": "Pole Vault",
+    "type": "distance",
+    "unit": "m"
+  }
+]

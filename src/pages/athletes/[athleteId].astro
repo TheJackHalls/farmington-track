@@ -1,27 +1,117 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import athletes from "../../../data/athletes.json";
+import meets from "../../../data/meets.json";
+import performances from "../../../data/performances.json";
+import eventMeta from "../../../data/event_meta.json";
 
 export function getStaticPaths() {
-  return [
-    {
-      params: { athleteId: "sample-athlete" },
-      props: { name: "Sample Athlete" }
-    }
-  ];
+  return athletes.map((athlete) => ({
+    params: { athleteId: athlete.id }
+  }));
 }
 
 const { athleteId } = Astro.params;
-const { name } = Astro.props;
+const athlete = athletes.find((entry) => entry.id === athleteId);
+
+const meetLookup = new Map(meets.map((meet) => [meet.id, meet]));
+const eventLookup = new Map(eventMeta.map((event) => [event.key, event]));
+const eventOrder = new Map(eventMeta.map((event, index) => [event.key, index]));
+
+const formatDate = (value) =>
+  new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(new Date(value));
+
+const formatTime = (totalSeconds) => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds - minutes * 60;
+  if (minutes > 0) {
+    return `${minutes}:${seconds.toFixed(2).padStart(5, "0")}`;
+  }
+  return seconds.toFixed(2);
+};
+
+const formatMark = (mark, type) => {
+  if (type === "time") {
+    return formatTime(mark);
+  }
+  return `${mark.toFixed(2)} m`;
+};
+
+const athletePerformances = performances.filter(
+  (performance) => performance.athleteId === athleteId
+);
+
+const performancesByEvent = athletePerformances.reduce((acc, performance) => {
+  const event = eventLookup.get(performance.event);
+  if (!event) return acc;
+  if (!acc[event.key]) {
+    acc[event.key] = {
+      event,
+      performances: []
+    };
+  }
+  const meet = meetLookup.get(performance.meetId);
+  acc[event.key].performances.push({
+    ...performance,
+    meet
+  });
+  return acc;
+}, {});
+
+const groupedEvents = Object.values(performancesByEvent).sort(
+  (a, b) =>
+    (eventOrder.get(a.event.key) ?? 0) - (eventOrder.get(b.event.key) ?? 0)
+);
+
+for (const group of groupedEvents) {
+  group.performances.sort(
+    (a, b) => new Date(a.meet?.date ?? 0) - new Date(b.meet?.date ?? 0)
+  );
+}
 ---
 
-<BaseLayout title={`Farmington Track | ${name ?? athleteId}`}>
-  <section class="space-y-4">
-    <h1 class="text-2xl font-semibold">{name ?? athleteId}</h1>
-    <p class="text-slate-700">
-      Athlete profiles will highlight PRs, event history, and team accomplishments.
-    </p>
-    <div class="rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-600">
-      This profile is a placeholder for {athleteId}.
-    </div>
+<BaseLayout title={`Farmington Track | ${athlete?.first ?? "Athlete"}` }>
+  <section class="space-y-6">
+    {athlete ? (
+      <header class="space-y-1">
+        <p class="text-sm text-slate-500">Athlete Profile</p>
+        <h1 class="text-2xl font-semibold text-slate-900">
+          {athlete.first} {athlete.last}
+        </h1>
+        <p class="text-sm text-slate-600">
+          Grade {athlete.grade} · {athlete.gender === "F" ? "Girls" : "Boys"}
+        </p>
+      </header>
+    ) : (
+      <div class="rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-600">
+        Athlete not found.
+      </div>
+    )}
+
+    {athlete ? (
+      <div class="space-y-6">
+        {groupedEvents.map((group) => (
+          <div class="rounded-lg border border-slate-200 bg-white p-4">
+            <h2 class="text-lg font-semibold text-slate-900">{group.event.name}</h2>
+            <ul class="mt-3 space-y-2 text-sm text-slate-700">
+              {group.performances.map((performance) => (
+                <li class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                  <span>
+                    {performance.meet?.name ?? "Meet"} · {performance.meet?.date ? formatDate(performance.meet.date) : ""}
+                  </span>
+                  <span class="font-medium">
+                    {formatMark(performance.mark, group.event.type)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    ) : null}
   </section>
 </BaseLayout>

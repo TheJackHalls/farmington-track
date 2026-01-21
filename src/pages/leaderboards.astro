@@ -1,13 +1,96 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import athletes from "../../data/athletes.json";
+import meets from "../../data/meets.json";
+import performances from "../../data/performances.json";
+import eventMeta from "../../data/event_meta.json";
+
+const athleteLookup = new Map(
+  athletes.map((athlete) => [athlete.id, athlete])
+);
+const meetLookup = new Map(meets.map((meet) => [meet.id, meet]));
+
+const formatDate = (value) =>
+  new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(new Date(value));
+
+const formatTime = (totalSeconds) => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds - minutes * 60;
+  if (minutes > 0) {
+    return `${minutes}:${seconds.toFixed(2).padStart(5, "0")}`;
+  }
+  return seconds.toFixed(2);
+};
+
+const formatMark = (mark, type) => {
+  if (type === "time") {
+    return formatTime(mark);
+  }
+  return `${mark.toFixed(2)} m`;
+};
+
+const leaderboards = eventMeta.map((event) => {
+  const eventPerformances = performances
+    .filter((performance) => performance.event === event.key)
+    .map((performance) => ({
+      ...performance,
+      athlete: athleteLookup.get(performance.athleteId),
+      meet: meetLookup.get(performance.meetId)
+    }))
+    .filter((performance) => performance.athlete && performance.meet)
+    .sort((a, b) => {
+      if (event.type === "time") {
+        return a.mark - b.mark;
+      }
+      return b.mark - a.mark;
+    })
+    .slice(0, 5);
+
+  return {
+    event,
+    performances: eventPerformances
+  };
+});
 ---
 
 <BaseLayout title="Farmington Track | Leaderboards">
-  <section class="space-y-4">
-    <h1 class="text-2xl font-semibold">Leaderboards</h1>
-    <p class="text-slate-700">Season-long rankings will appear here.</p>
-    <div class="rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-600">
-      Leaderboards are not available yet.
+  <section class="space-y-6">
+    <div class="space-y-2">
+      <h1 class="text-2xl font-semibold">Leaderboards</h1>
+      <p class="text-slate-700">
+        Top five marks across the demo events for Farmington athletes.
+      </p>
+    </div>
+
+    <div class="space-y-6">
+      {leaderboards.map((board) => (
+        <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+          <h2 class="text-lg font-semibold text-slate-900">{board.event.name}</h2>
+          {board.performances.length ? (
+            <ul class="mt-3 space-y-2 text-sm text-slate-700">
+              {board.performances.map((performance, index) => (
+                <li class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                  <span>
+                    <span class="font-medium">#{index + 1}</span> {performance.athlete.first} {performance.athlete.last}
+                    <span class="text-slate-500">
+                      {" "}· {performance.meet.name} ({formatDate(performance.meet.date)})
+                    </span>
+                  </span>
+                  <span class="font-semibold">
+                    {formatMark(performance.mark, board.event.type)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="mt-3 text-sm text-slate-600">No performances yet.</p>
+          )}
+        </div>
+      ))}
     </div>
   </section>
 </BaseLayout>

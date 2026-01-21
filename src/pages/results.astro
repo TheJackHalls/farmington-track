@@ -1,13 +1,45 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import meets from "../../data/meets.json";
+
+const formatDate = (value) =>
+  new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(new Date(value));
+
+const sortedMeets = [...meets].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
 ---
 
 <BaseLayout title="Farmington Track | Results">
-  <section class="space-y-4">
-    <h1 class="text-2xl font-semibold">Results</h1>
-    <p class="text-slate-700">Meet results will be published here after each event.</p>
-    <div class="rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-600">
-      Results data is coming soon.
+  <section class="space-y-6">
+    <div class="space-y-2">
+      <h1 class="text-2xl font-semibold">Results</h1>
+      <p class="text-slate-700">Meet-by-meet results for Farmington athletes.</p>
+    </div>
+
+    <div class="space-y-4">
+      {sortedMeets.map((meet) => (
+        <article class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-slate-900">
+                <a class="text-blue-600 hover:underline" href={`/results/${meet.id}`}>
+                  {meet.name}
+                </a>
+              </h2>
+              <p class="text-sm text-slate-600">{formatDate(meet.date)}</p>
+            </div>
+            <div class="text-sm text-slate-600">
+              <p>{meet.season}</p>
+              {meet.location ? <p>{meet.location}</p> : null}
+            </div>
+          </div>
+        </article>
+      ))}
     </div>
   </section>
 </BaseLayout>

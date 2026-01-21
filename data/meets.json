@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "spring-invite-2024",
+    "name": "Spring Invite",
+    "date": "2024-04-05",
+    "season": "2024 Outdoor",
+    "location": "Farmington, MN"
+  },
+  {
+    "id": "north-suburban-2024",
+    "name": "North Suburban Relays",
+    "date": "2024-04-20",
+    "season": "2024 Outdoor",
+    "location": "Blaine, MN"
+  }
+]
