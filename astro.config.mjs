@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://thejackhalls.github.io',
+  site: 'https://thejackhalls.github.io/farmington-track',
   base: '/farmington-track',
   trailingSlash: 'always',
 });
