@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900;
+}
+
+main {
+  @apply mx-auto max-w-3xl px-4 py-10;
+}
+
+header {
+  @apply border-b border-slate-200 bg-white;
+}
+
+nav a {
+  @apply text-sm font-medium text-slate-700 hover:text-slate-900;
+}
