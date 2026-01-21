@@ -1,5 +1,7 @@
-import { defineConfig } from "astro/config";
+import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: "http://localhost:4321"
+  site: 'https://thejackhalls.github.io',
+  base: '/farmington-track',
 });
+
