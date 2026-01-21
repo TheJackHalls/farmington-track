@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CsvImportPanel from "../../components/CsvImportPanel.astro";
+import athletesScript from "../../scripts/athletesClient.ts?url";
+import { withBase } from "../../lib/paths";
+import athletes from "../../../data/athletes.json";
+---
+
+<BaseLayout title="Farmington Track | Athletes">
+  <section class="space-y-6">
+    <div class="space-y-2">
+      <h1 class="text-2xl font-semibold">Athletes</h1>
+      <p class="text-slate-700">
+        Browse athlete profiles powered by your imported meet results.
+      </p>
+    </div>
+
+    <CsvImportPanel />
+
+    <div class="hidden space-y-4" data-imported-athletes>
+      <div class="rounded-lg border border-blue-100 bg-blue-50 p-3 text-sm text-blue-900">
+        Showing athlete profiles from your imported CSV files.
+      </div>
+
+      <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <div class="flex flex-col gap-4 lg:flex-row">
+          <div class="lg:w-1/3">
+            <h2 class="text-sm font-semibold text-slate-500">Athlete roster</h2>
+            <div class="mt-3 space-y-2" data-athlete-list></div>
+          </div>
+          <div class="lg:w-2/3" data-athlete-detail></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-4" data-static-athletes>
+      <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <h2 class="text-lg font-semibold text-slate-900">Demo athlete profiles</h2>
+        <p class="mt-2 text-sm text-slate-600">
+          Import a CSV above to replace these demo profiles with your meet data.
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-700">
+          {athletes.map((athlete) => (
+            <li>
+              <a
+                class="font-medium text-blue-600 hover:underline"
+                href={withBase(`athletes/${athlete.id}/`)}
+              >
+                {athlete.first} {athlete.last}
+              </a>
+              <span class="text-slate-500">
+                {" "}· Grade {athlete.grade} · {athlete.gender === "F" ? "Girls" : "Boys"}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script type="module" src={athletesScript}></script>

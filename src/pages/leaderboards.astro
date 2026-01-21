@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import CsvImportPanel from "../components/CsvImportPanel.astro";
+import leaderboardsScript from "../scripts/leaderboardsClient.ts?url";
 import athletes from "../../data/athletes.json";
 import meets from "../../data/meets.json";
 import performances from "../../data/performances.json";
@@ -62,11 +64,20 @@ const leaderboards = eventMeta.map((event) => {
     <div class="space-y-2">
       <h1 class="text-2xl font-semibold">Leaderboards</h1>
       <p class="text-slate-700">
-        Top five marks across the demo events for Farmington athletes.
+        Top five marks across all imported meets, or the demo events below.
       </p>
     </div>
 
-    <div class="space-y-6">
+    <CsvImportPanel />
+
+    <div class="hidden space-y-6" data-imported-leaderboards>
+      <div class="rounded-lg border border-blue-100 bg-blue-50 p-3 text-sm text-blue-900">
+        Showing leaderboards from your imported CSV files.
+      </div>
+      <div class="space-y-6" data-imported-boards></div>
+    </div>
+
+    <div class="space-y-6" data-static-leaderboards>
       {leaderboards.map((board) => (
         <div class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
           <h2 class="text-lg font-semibold text-slate-900">{board.event.name}</h2>
@@ -94,3 +105,5 @@ const leaderboards = eventMeta.map((event) => {
     </div>
   </section>
 </BaseLayout>
+
+<script type="module" src={leaderboardsScript}></script>
