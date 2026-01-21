@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { athleteId: "sample-athlete" },
+      props: { name: "Sample Athlete" }
+    }
+  ];
+}
+
+const { athleteId } = Astro.params;
+const { name } = Astro.props;
+---
+
+<BaseLayout title={`Farmington Track | ${name ?? athleteId}`}>
+  <section class="space-y-4">
+    <h1 class="text-2xl font-semibold">{name ?? athleteId}</h1>
+    <p class="text-slate-700">
+      Athlete profiles will highlight PRs, event history, and team accomplishments.
+    </p>
+    <div class="rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-600">
+      This profile is a placeholder for {athleteId}.
+    </div>
+  </section>
+</BaseLayout>
