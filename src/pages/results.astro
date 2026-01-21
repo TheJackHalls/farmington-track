@@ -2,6 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import meets from "../../data/meets.json";
 
+// Normalize BASE_URL so it always ends with "/"
+const BASE = import.meta.env.BASE_URL;
+const base = BASE.endsWith("/") ? BASE : `${BASE}/`;
+
 const formatDate = (value) =>
   new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -27,7 +31,10 @@ const sortedMeets = [...meets].sort(
           <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 class="text-lg font-semibold text-slate-900">
-                <a class="text-blue-600 hover:underline" href={`${import.meta.env.BASE_URL}results/${meet.id}/`}>
+                <a
+                  class="text-blue-600 hover:underline"
+                  href={`${base}results/${meet.id}/`}
+                >
                   {meet.name}
                 </a>
               </h2>
