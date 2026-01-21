@@ -2,7 +2,16 @@
 import "../styles/global.css";
 
 const { title = "Farmington Track" } = Astro.props;
-const base = import.meta.env.BASE_URL;
+
+// Normalize BASE_URL so it always ends with a "/"
+const BASE = import.meta.env.BASE_URL;
+const base = BASE.endsWith("/") ? BASE : `${BASE}/`;
+
+// Join paths safely (no double slashes, no missing slashes)
+const withBase = (path: string) => {
+  const cleaned = path.replace(/^\/+/, ""); // remove leading "/" if any
+  return `${base}${cleaned}`;
+};
 ---
 
 <!doctype html>
@@ -20,11 +29,11 @@ const base = import.meta.env.BASE_URL;
           <p class="text-sm text-slate-600">Meet updates, results, and athlete profiles.</p>
         </div>
         <nav class="flex flex-wrap gap-4">
-          <a href={base}>Home</a>
-          <a href={`${base}announcements`}>Announcements</a>
-          <a href={`${base}results`}>Results</a>
-          <a href={`${base}leaderboards`}>Leaderboards</a>
-          <a href={`${base}athletes/olivia-hart`}>Athlete</a>
+          <a href={withBase("")}>Home</a>
+          <a href={withBase("announcements/")}>Announcements</a>
+          <a href={withBase("results/")}>Results</a>
+          <a href={withBase("leaderboards/")}>Leaderboards</a>
+          <a href={withBase("athletes/olivia-hart/")}>Athlete</a>
         </nav>
       </div>
     </header>
@@ -33,4 +42,3 @@ const base = import.meta.env.BASE_URL;
     </main>
   </body>
 </html>
-
